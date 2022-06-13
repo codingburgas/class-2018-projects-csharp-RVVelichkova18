@@ -49,11 +49,42 @@ namespace FinalProject
             } // Disconnects from the SQL server
         }
 
+        public static void Update<T>(T user) where T : User
+        {
+            var query = $@"
+              UPDATE[users]
+               SET[FirstName] = @FirstName
+                  ,[LastName] = @LastName
+                  ,[Phone] = @Phone
+                  ,[Email] = @Email
+                  ,[Role] = @Role
+                 WHERE Id= @Id
+            ";
+        }
 
+        static bool UpdateCustomer(int id, string firstName)
+        {
+            
+            string query = $"UPDATE users SET FirstName = @FirstName " +
+            $"WHERE Id = @Id ";
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                
+                command.Parameters.Add("@FirstName", System.Data.SqlDbType.NChar).Value = firstName;
+                command.Parameters.Add("@Id", System.Data.SqlDbType.Int).Value = id;
+                connection.Open();
+                Console.WriteLine("Connected!");
+
+                return command.ExecuteNonQuery() == 1;
+            } // Disconnects from the SQL server
+        }
         static void Main(string[] args)
         {
-            bool wasDeleted = DeleteUserById(1);
-            Console.WriteLine($"Was deleted: {wasDeleted}");
+            // bool wasDeleted = DeleteUserById(1);
+            //Console.WriteLine($"Was deleted: {wasDeleted}");
+            bool wasUpdated = UpdateCustomer(2, "User1");
+            Console.WriteLine($"Was updated: {wasUpdated}");
         }
     }
 }
