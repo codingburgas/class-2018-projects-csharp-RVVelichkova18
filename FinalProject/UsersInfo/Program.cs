@@ -78,12 +78,30 @@ namespace UsersInfo
                 return command.ExecuteNonQuery() == 1;
             } // Disconnects from the SQL server
         }
+        static void ShowUsers()
+        {
+            string query = "SELECT TOP 2 * FROM users";
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                connection.Open();
+                Console.WriteLine("Connected!");
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"{reader["Id"]}, {reader[1]}, {reader[2]}");
+                    }
+                }
+            } // Disconnects from the SQL server
+        }
         static void Main(string[] args)
         {
-            // bool wasDeleted = DeleteUserById(1);
-            //Console.WriteLine($"Was deleted: {wasDeleted}");
+            bool wasDeleted = DeleteUserById(1);
+            Console.WriteLine($"Was deleted: {wasDeleted}");
             bool wasUpdated = UpdateCustomer(2, "User1");
             Console.WriteLine($"Was updated: {wasUpdated}");
+            ShowUsers();
         }
     }
 }
