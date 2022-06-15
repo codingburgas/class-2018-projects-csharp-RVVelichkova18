@@ -6,7 +6,7 @@ Please, do not add anything. **Wait for furture instructions**.
 
 ## Hello, I am Radina! ✨
 
-This is my solution for our internship assigment. I have to develop a Project Management application that manages the operations of an IT company.
+This is my solution for the final project. Software that regulates the sales of wood in the country and its export.
 
 ---
  
